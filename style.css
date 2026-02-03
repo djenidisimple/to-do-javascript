@@ -79,6 +79,7 @@ body {
     width: 100%;
 }
 input[type="text"] {
+    width: 100%;
     outline: none;
     background: none;
     border: none;
@@ -86,6 +87,14 @@ input[type="text"] {
 input[type="text"]::placeholder {
     color: var(--gray-600);
     font-size: 12px;
+}
+.btn-close {
+    width: 18px;
+    height: 18px;
+    background: url(./images/icon-cross.svg) center;
+}
+.btn-stat:hover {
+    color: var(--navy-850);
 }
 .input-text {
     display: flex;
@@ -161,16 +170,25 @@ button {
     border-radius: 50%;
     margin-right: 15px;
 }
+.input-radio:hover {
+    border-color: var(--navy-850);
+}
+.items.checked > .flex-row > .input-radio::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    background: url('./images/icon-check.svg') center no-repeat;
+}
 .flex-row {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.checked > .input-radio {
+.items.checked > .flex-row > .input-radio {
     background: var(--check);
     border: none;
 }
-.checked > p {
+.checked > .flex-row > p {
     color: var(--gray-600)!important;
     text-decoration: line-through;
 }
