@@ -11,6 +11,7 @@ Array.from(items).forEach(element => element.style.display = "flex");
 let new_items = [...items].filter((element) => !element.classList.contains("checked"));
 count.innerText = new_items.length;
 
+document.body.dataset.theme = localStorage.getItem('mode');
 
 to_do_input.addEventListener("keydown", function(e) {
     if (e.keyCode == 13) {
@@ -114,8 +115,10 @@ clearAllCompleted();
 
 moon.addEventListener('click', function() {
     document.body.dataset.theme = '2';
+    localStorage.setItem('mode', '2');
 });
 
 sun.addEventListener('click', function() {
     document.body.dataset.theme = '1';
+    localStorage.setItem('mode', '1');
 });
