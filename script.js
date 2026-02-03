@@ -5,7 +5,7 @@ let items = document.getElementsByClassName("items");
 let to_do_input = document.querySelector("#to-do-input");
 let todo = document.querySelector("#todo");
 let count = document.querySelector(".count");
-let btnStat = document.getElementsByClassName("btn-stat");
+let btnStat = document.getElementsByClassName("btn-stat"), btnClear = document.querySelector(".btn-clear");
 let input_radio = document.querySelectorAll(".input-radio"); 
 Array.from(items).forEach(element => element.style.display = "flex");
 let new_items = [...items].filter((element) => !element.classList.contains("checked"));
@@ -18,7 +18,7 @@ to_do_input.addEventListener("keydown", function(e) {
         let input_radio = document.createElement("div");
         let content_items = document.createElement("div");
         let text_items = document.createElement("p"), text_content;
-        let btnClose = document.createElement("button");
+        let btnClose = document.createElement("button"), newItems;
         new_items.setAttribute("class", "items");
         todo.insertBefore(new_items, todo.lastChild);
         content_items.setAttribute("class", "flex-row");
@@ -32,17 +32,22 @@ to_do_input.addEventListener("keydown", function(e) {
         content_items.appendChild(text_items);
         text_content = document.createTextNode(`${to_do_input.value}`);
         text_items.appendChild(text_content);
-        count.innerText = items.length;
+        newItems = [...items].filter((element) => !element.classList.contains("checked"));
+        count.innerText = newItems.length;
         setChecked();
         deleteItems();
         filterItems();
+        clearAllCompleted();
     }
 });
+
 function deleteItems() {
+    let newItems = items;
     for (let i = 0; i < btn_close.length; i++) {
         btn_close[i].addEventListener('click', function () {
             items[i].remove();
-            count.innerText = items.length;
+            newItems = [...items].filter((element) => !element.classList.contains("checked"));
+            count.innerText = newItems.length;
         });
     }
 }
@@ -85,13 +90,28 @@ function setChecked() {
                 newItems = [...items].filter((element) => !element.classList.contains("checked"));
                 count.innerText = newItems.length;
             }
+            clearAllCompleted();
         });
+    });
+}
+
+function clearAllCompleted() {
+    let newItems = items;
+    btnClear.addEventListener("click", function() {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].classList.contains('checked')) {
+                items[i].remove();
+                newItems = [...items].filter((element) => !element.classList.contains("checked"));
+                count.innerText = newItems.length;
+            }
+        }
     });
 }
 
 setChecked();
 deleteItems();
 filterItems();
+clearAllCompleted();
 
 moon.addEventListener('click', function() {
     document.body.dataset.theme = '2';

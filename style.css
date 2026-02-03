@@ -93,7 +93,10 @@ input[type="text"]::placeholder {
     height: 18px;
     background: url(./images/icon-cross.svg) center;
 }
-.btn-stat:hover {
+.btn-clear {
+    font-size: 12px;
+}
+.btn-stat:hover, .btn-clear:hover {
     color: var(--navy-850);
 }
 .input-text {
