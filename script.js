@@ -6,7 +6,7 @@ let to_do_input = document.querySelector("#to-do-input");
 let todo = document.querySelector("#todo");
 let count = document.querySelector(".count");
 let btnStat = document.getElementsByClassName("btn-stat"), btnClear = document.querySelector(".btn-clear");
-let input_radio = document.querySelectorAll(".input-radio"); 
+let input_radio = document.getElementsByClassName("input-radio"); 
 Array.from(items).forEach(element => element.style.display = "flex");
 let new_items = [...items].filter((element) => !element.classList.contains("checked"));
 count.innerText = new_items.length;
@@ -43,13 +43,14 @@ to_do_input.addEventListener("keydown", function(e) {
 
 function deleteItems() {
     let newItems = items;
-    for (let i = 0; i < btn_close.length; i++) {
-        btn_close[i].addEventListener('click', function () {
-            items[i].remove();
+    Array.from(btn_close).forEach(btn => {
+        btn.addEventListener('click', function () {
+            const clickedItem = this.closest('.items');
+            clickedItem.remove();
             newItems = [...items].filter((element) => !element.classList.contains("checked"));
             count.innerText = newItems.length;
         });
-    }
+    });
 }
 
 function filterItems() {
@@ -79,32 +80,30 @@ function filterItems() {
 
 function setChecked() {
     let newItems = items;
-    input_radio.forEach((input, id) => {
+    Array.from(input_radio).forEach((input) => {
         input.addEventListener("click", function() {
-            if (!items[id - 1].classList.contains('checked')) {
-                items[id - 1].classList.add('checked');
+            const clickedItem = this.closest('.items');
+            
+            if (!clickedItem.classList.contains('checked')) {
+                clickedItem.classList.add('checked');
                 newItems = [...items].filter((element) => !element.classList.contains("checked"));
                 count.innerText = newItems.length;
             } else {
-                items[id - 1].classList.remove('checked');
+                clickedItem.classList.remove('checked');
                 newItems = [...items].filter((element) => !element.classList.contains("checked"));
                 count.innerText = newItems.length;
             }
-            clearAllCompleted();
         });
     });
 }
 
 function clearAllCompleted() {
-    let newItems = items;
     btnClear.addEventListener("click", function() {
-        for (let i = 0; i < items.length; i++) {
-            if (items[i].classList.contains('checked')) {
-                items[i].remove();
-                newItems = [...items].filter((element) => !element.classList.contains("checked"));
-                count.innerText = newItems.length;
+        Array.from(items).forEach((value) => {
+            if (value.classList.contains('checked')) {
+                value.remove();
             }
-        }
+        });
     });
 }
 
