@@ -11,6 +11,10 @@
 :root {
     --blue-500: #3a7bfd;
     --check: linear-gradient(#57ddff, #c058f3);
+    --bg-image: url('./images/bg-mobile-light.jpg');
+    --gray-50: #fafafa;
+    --sun: none;
+    --moon: block;
 }
 [data-theme="1"] {
     --gray-50: #fafafa;
@@ -87,6 +91,9 @@ body {
 .w-full {
     width: 100%;
 }
+.w-max {
+    max-width: 542px;
+}
 input[type="text"] {
     width: 100%;
     outline: none;
@@ -111,6 +118,7 @@ input[type="text"]::placeholder {
 .input-text {
     display: flex;
     align-items: center;
+    max-width: 542px;
     width: 100%;
     height: 48px;
     padding: 15px;
@@ -154,6 +162,7 @@ button {
     flex-direction: column;
     justify-content: start;
     padding: 0;
+    max-width: 542px;
 }
 .items {
     cursor: pointer;
@@ -236,4 +245,16 @@ button {
     color: var(--gray-600);
     font-size: 14px;
     letter-spacing: -1.5%;
+}
+
+@media screen and (min-width: 700px) {
+    [data-theme="1"] {
+        --bg-image: url('./images/bg-desktop-light.jpg');
+    }
+    [data-theme="2"] {
+        --bg-image: url('./images/bg-desktop-dark.jpg');
+    }
+    .card-header {
+        height: 300px;
+    }
 }
