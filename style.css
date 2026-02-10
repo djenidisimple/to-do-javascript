@@ -165,7 +165,7 @@ button {
     max-width: 542px;
 }
 .items {
-    cursor: pointer;
+    user-select: none;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -9,6 +9,7 @@ let btnStat = document.getElementsByClassName("btn-stat"), btnClear = document.q
 let input_radio = document.getElementsByClassName("input-radio"); 
 Array.from(items).forEach(element => element.style.display = "flex");
 let new_items = [...items].filter((element) => !element.classList.contains("checked"));
+let nextElement, dragged;
 count.innerText = new_items.length;
 
 document.body.dataset.theme = localStorage.getItem('mode');
@@ -122,3 +123,57 @@ sun.addEventListener('click', function() {
     document.body.dataset.theme = '1';
     localStorage.setItem('mode', '1');
 });
+
+Array.from(items).forEach((item) => {
+    item.classList.add("dropzone");
+    item.draggable = true;
+});
+
+Array.from(items).forEach((item) => {
+    item.addEventListener("dragstart", (event) => {
+        // store a ref. on the dragged elem
+        dragged = event.target;
+        nextElement = dragged.nextElementSibling;
+        event.dataTransfer.setDragImage(dragged, 0, 0);
+        setTimeout(() => {
+            event.target.classList.remove("dropzone");
+            event.target.classList.add("dragging");
+        }, 0);
+    });
+    item.addEventListener("dragend", (event) => {
+        // reset the transparency
+        event.target.classList.remove("dragging");
+    });
+    item.addEventListener("dragover", (event) => {
+        // prevent default to allow drop
+        event.preventDefault();
+    });
+    item.addEventListener("dragenter", (event) => {
+        // highlight potential drop target when the draggable element enters it
+        if (event.target.classList.contains("dropzone")) {
+            event.target.classList.add("dragover");
+        }
+    });
+    item.addEventListener("dragleave", (event) => {
+      // reset background of potential drop target when the draggable element leaves it
+      if (event.target.classList.contains("dropzone")) {
+        event.target.classList.remove("dragover");
+      }
+    });
+    item.addEventListener("drop", (event) => {
+      // prevent default action (open as link for some elements)
+      event.preventDefault();
+      const targetElement = event.target;
+      // move dragged element to the selected drop target
+      if (targetElement.closest(".dropzone") && targetElement !== dragged && dragged) {
+        const parentDrop = targetElement.parentNode;
+        const parentDrag = dragged.parentNode;
+        interime = targetElement;
+        parentDrop.insertBefore(dragged, targetElement);
+        parentDrag.insertBefore(targetElement, nextElement);
+        event.target.classList.remove("dragover");
+        dragged.classList.add("dropzone");
+      }
+    });
+});
+
