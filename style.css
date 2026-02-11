@@ -138,6 +138,7 @@ input[type="text"]::placeholder {
     color: white;
 }
 .stat-to-do {
+    width: 90%;
     max-width: 542px;
     max-height: 48px;
     margin: 20px auto;
@@ -293,8 +294,10 @@ button {
         font-size: 18.5px!important;
     }
     .stat-to-do {
+        width: auto;
         margin-top: -51px;
         border-radius: 0;
+        box-shadow: none;
         height: 54px;
         padding: 5px 20px;
     }
