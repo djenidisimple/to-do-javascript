@@ -19,7 +19,7 @@ to_do_input.addEventListener("keydown", function(e) {
         let new_items = document.createElement("div");
         let input_radio = document.createElement("div");
         let content_items = document.createElement("div");
-        let text_items = document.createElement("p"), text_content;
+        let text_items = document.createElement("p"), span = document.createElement("span"), text_content;
         let btnClose = document.createElement("button"), newItems;
         new_items.setAttribute("class", "items");
         todo.insertBefore(new_items, todo.lastChild);
@@ -33,7 +33,8 @@ to_do_input.addEventListener("keydown", function(e) {
         content_items.appendChild(input_radio);
         content_items.appendChild(text_items);
         text_content = document.createTextNode(`${to_do_input.value}`);
-        text_items.appendChild(text_content);
+        span.appendChild(text_content);
+        text_items.appendChild(span);
         newItems = [...items].filter((element) => !element.classList.contains("checked"));
         count.innerText = newItems.length;
         setChecked();

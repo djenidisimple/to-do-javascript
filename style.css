@@ -52,7 +52,7 @@ html {
 }
 body {
     background-color: var(--gray-50);
-    padding-bottom: 15px;
+    padding-bottom: 35px;
 }
 .sun {
     cursor: pointer;
@@ -185,6 +185,8 @@ button {
     font-size: 12px;
     color: var(--items-text);
     letter-spacing: -1.5%;
+    overflow: hidden;
+    text-overflow: ellipsis
 }
 .items-text > span {
     overflow: hidden;
