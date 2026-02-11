@@ -15,7 +15,7 @@ count.innerText = new_items.length;
 document.body.dataset.theme = localStorage.getItem('mode');
 
 to_do_input.addEventListener("keydown", function(e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode == 13 && to_do_input.value.length > 0) {
         let new_items = document.createElement("div");
         let input_radio = document.createElement("div");
         let content_items = document.createElement("div");
