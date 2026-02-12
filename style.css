@@ -274,7 +274,7 @@ button {
 
 @media screen and (min-width: 700px) {
     :root {
-        --bg-image: url('./images/bg-desktop-light.jpg');
+        --bg-image: url('./images/bg-desktop-dark.jpg');
     }
     [data-theme="1"] {
         --bg-image: url('./images/bg-desktop-light.jpg');
