@@ -3,7 +3,6 @@ let sun = document.querySelector('.sun');
 let btn_close = document.getElementsByClassName("btn-close");
 let items = document.getElementsByClassName("items");
 let to_do_input = document.querySelector("#to-do-input");
-let todo = document.querySelector("#todo");
 let count = document.querySelector(".count");
 let btnStat = document.getElementsByClassName("btn-stat"), btnClear = document.querySelector(".btn-clear");
 let input_radio = document.getElementsByClassName("input-radio"); 
@@ -17,14 +16,17 @@ document.body.dataset.theme = localStorage.getItem('mode');
 
 to_do_input.addEventListener("keydown", function(e) {
     if (e.keyCode == 13 && to_do_input.value.length > 0) {
+        let todo = document.querySelector("#todo");
         let new_items = document.createElement("div");
         let input_radio = document.createElement("div");
         let content_items = document.createElement("div");
+        let itemsCount = document.querySelectorAll('.items').length;
+        let footer = todo.children[itemsCount];
         let text_items = document.createElement("p"), span = document.createElement("span"), text_content;
         let btnClose = document.createElement("button"), newItems;
         new_items.setAttribute("class", "items");
         new_items.setAttribute("draggable", true);
-        todo.insertBefore(new_items, todo.lastChild);
+        todo.insertBefore(new_items, footer);
         content_items.setAttribute("class", "flex-row");
         input_radio.setAttribute("class", "input-radio");
         text_items.setAttribute("class", "items-text");
@@ -151,10 +153,14 @@ Array.from(items).forEach((item) => {
 const initSortableList = (e) => {
     e.preventDefault();
     const dragItems = sortList.querySelector(".dragging");
+    if (!dragItems) return;
+
     const notDrag = [...sortList.querySelectorAll(".items:not(.dragging)")];
 
     let nextSibling = notDrag.find(sibling => {
-        return e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
+        const rect = sibling.getBoundingClientRect();
+        const midpoint = rect.top + rect.height / 2;
+        return e.clientY <= midpoint;
     });
 
     sortList.insertBefore(dragItems, nextSibling);

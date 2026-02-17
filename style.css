@@ -200,6 +200,9 @@ button {
     padding: 5px 20px;
     border-bottom: var(--border-color);
 }
+.sortList {
+    position: relative;
+}
 .items.dragging:where(div) {
     opacity: 0;
 }
