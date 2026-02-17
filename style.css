@@ -65,16 +65,24 @@ html {
     height: 100%;
 }
 body {
+    position: relative;
+    overflow-x: hidden;
     background-color: var(--bg-color);
     padding-bottom: 35px;
 }
 .sun {
+    position: relative;
     cursor: pointer;
     display: var(--sun);
+    z-index: 4;
 }
 .moon {
     cursor: pointer;
     display: var(--moon);
+    z-index: 4;
+}
+.icon-mode {
+    position: relative;
 }
 .card-header {
     display: flex;
@@ -184,12 +192,16 @@ button {
 }
 .items {
     user-select: none;
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 54px;
     padding: 5px 20px;
     border-bottom: var(--border-color);
+}
+.items.dragging:where(div) {
+    opacity: 0;
 }
 .items-text {
     width: 80%;
@@ -217,6 +229,13 @@ button {
     background-color: var(--input-radio);
     border-radius: 50%;
     margin-right: 15px;
+}
+.input-radio-first {
+    animation: 2s spin infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg);background: var(--check); }
+    100% { transform: rotate(180deg);background: var(--check); }
 }
 .input-radio::after, .input-radio-first::after {
     content: "";

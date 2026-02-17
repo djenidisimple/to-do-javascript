@@ -10,6 +10,7 @@ let input_radio = document.getElementsByClassName("input-radio");
 Array.from(items).forEach(element => element.style.display = "flex");
 let new_items = [...items].filter((element) => !element.classList.contains("checked"));
 let nextElement, dragged;
+let sortList = document.querySelector(".sortList");
 count.innerText = new_items.length;
 
 document.body.dataset.theme = localStorage.getItem('mode');
@@ -22,6 +23,7 @@ to_do_input.addEventListener("keydown", function(e) {
         let text_items = document.createElement("p"), span = document.createElement("span"), text_content;
         let btnClose = document.createElement("button"), newItems;
         new_items.setAttribute("class", "items");
+        new_items.setAttribute("draggable", true);
         todo.insertBefore(new_items, todo.lastChild);
         content_items.setAttribute("class", "flex-row");
         input_radio.setAttribute("class", "input-radio");
@@ -37,6 +39,7 @@ to_do_input.addEventListener("keydown", function(e) {
         text_items.appendChild(span);
         newItems = [...items].filter((element) => !element.classList.contains("checked"));
         count.innerText = newItems.length;
+        to_do_input.value = "";
         setChecked();
         deleteItems();
         filterItems();
@@ -126,55 +129,32 @@ sun.addEventListener('click', function() {
 });
 
 Array.from(items).forEach((item) => {
-    item.classList.add("dropzone");
     item.draggable = true;
 });
 
 Array.from(items).forEach((item) => {
     item.addEventListener("dragstart", (event) => {
-        // store a ref. on the dragged elem
-        dragged = event.target;
-        nextElement = dragged.nextElementSibling;
-        event.dataTransfer.setDragImage(dragged, 0, 0);
         setTimeout(() => {
-            event.target.classList.remove("dropzone");
             event.target.classList.add("dragging");
         }, 0);
     });
     item.addEventListener("dragend", (event) => {
-        // reset the transparency
         event.target.classList.remove("dragging");
     });
-    item.addEventListener("dragover", (event) => {
-        // prevent default to allow drop
-        event.preventDefault();
-    });
-    item.addEventListener("dragenter", (event) => {
-        // highlight potential drop target when the draggable element enters it
-        if (event.target.classList.contains("dropzone")) {
-            event.target.classList.add("dragover");
-        }
-    });
-    item.addEventListener("dragleave", (event) => {
-      // reset background of potential drop target when the draggable element leaves it
-      if (event.target.classList.contains("dropzone")) {
-        event.target.classList.remove("dragover");
-      }
-    });
-    item.addEventListener("drop", (event) => {
-      // prevent default action (open as link for some elements)
-      event.preventDefault();
-      const targetElement = event.target;
-      // move dragged element to the selected drop target
-      if (targetElement.closest(".dropzone") && targetElement !== dragged && dragged) {
-        const parentDrop = targetElement.parentNode;
-        const parentDrag = dragged.parentNode;
-        interime = targetElement;
-        parentDrop.insertBefore(dragged, targetElement);
-        parentDrag.insertBefore(targetElement, nextElement);
-        event.target.classList.remove("dragover");
-        dragged.classList.add("dropzone");
-      }
-    });
 });
+
+const initSortableList = (e) => {
+    e.preventDefault();
+    const dragItems = sortList.querySelector(".dragging");
+    const notDrag = [...sortList.querySelectorAll(".items:not(.dragging)")];
+
+    let nextSibling = notDrag.find(sibling => {
+        return e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
+    });
+
+    sortList.insertBefore(dragItems, nextSibling);
+}
+
+sortList.addEventListener("dragover", initSortableList);
+sortList.addEventListener("dragenter", e => e.preventDefault());
 
