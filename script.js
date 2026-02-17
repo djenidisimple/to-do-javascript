@@ -8,10 +8,10 @@ let count = document.querySelector(".count");
 let btnStat = document.getElementsByClassName("btn-stat"), btnClear = document.querySelector(".btn-clear");
 let input_radio = document.getElementsByClassName("input-radio"); 
 Array.from(items).forEach(element => element.style.display = "flex");
-let new_items = [...items].filter((element) => !element.classList.contains("checked"));
+let itemsActive = [...items].filter((element) => !element.classList.contains("checked"));
 let nextElement, dragged;
 let sortList = document.querySelector(".sortList");
-count.innerText = new_items.length;
+count.innerText = itemsActive.length;
 
 document.body.dataset.theme = localStorage.getItem('mode');
 
@@ -44,6 +44,7 @@ to_do_input.addEventListener("keydown", function(e) {
         deleteItems();
         filterItems();
         clearAllCompleted();
+        attachement([...items].filter((element) => element == new_items)[0]);
     }
 });
 
@@ -132,7 +133,7 @@ Array.from(items).forEach((item) => {
     item.draggable = true;
 });
 
-Array.from(items).forEach((item) => {
+const attachement = (item) => {
     item.addEventListener("dragstart", (event) => {
         setTimeout(() => {
             event.target.classList.add("dragging");
@@ -141,6 +142,10 @@ Array.from(items).forEach((item) => {
     item.addEventListener("dragend", (event) => {
         event.target.classList.remove("dragging");
     });
+}
+
+Array.from(items).forEach((item) => {
+    attachement(item);
 });
 
 const initSortableList = (e) => {
